@@ -49,7 +49,29 @@ class SensorManager {
         }
     }
 
-    async loadSensors(url) {}
+    async loadSensors(url) {
+        try {
+            const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Error al cargar los sensores: ${response.statusText}`);
+        }
+        const data = await response.json();
+        data.forEach(sensorData => {
+          const sensor = new Sensor(
+            sensorData.id,
+            sensorData.name,
+            sensorData.type,
+            sensorData.value,
+            sensorData.unit,
+            sensorData.updated_at
+          );
+          this.addSensor(sensor);
+        });
+        this.render();
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
     render() {
         const container = document.getElementById("sensor-container");
