@@ -26,7 +26,8 @@ class SensorManager {
     }
 
     updateSensor(id) {
-        const sensor = this.sensors.find((sensor) => sensor.id === id);
+        const sensorId = Number(id);
+        const sensor = this.sensors.find((sensor) => sensor.id === sensorId);
         if (sensor) {
             let newValue;
             switch (sensor.type) {
