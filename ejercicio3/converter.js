@@ -11,7 +11,31 @@ class CurrencyConverter {
         this.currencies = [];
     }
 
-    getCurrencies(apiUrl) {}
+   async getCurrencies() {
+        try {
+            const response = await fetch(`${this.apiUrl}/currencies`);
+            const data = await response.json();
+            this.currencies = Object.entries(data).map(([code, name]) => new Currency(code, name));
+            this.populateCurrencyOptions();
+        } catch (error) {
+            console.error('Error fetching currencies:', error);
+        }
+    }
+    populateCurrencyOptions() {
+        const fromCurrencySelect = document.getElementById('from-currency');
+        const toCurrencySelect = document.getElementById('to-currency');
+        fromCurrencySelect.innerHTML = '';
+        toCurrencySelect.innerHTML = '';
+
+        this.currencies.forEach(currency => {
+            const option = document.createElement('option');
+            option.value = currency.code;
+            option.textContent = `${currency.code} - ${currency.name}`;
+            fromCurrencySelect.appendChild(option);
+            toCurrencySelect.appendChild(option.cloneNode(true));
+        });
+    }
+        
 
     convertCurrency(amount, fromCurrency, toCurrency) {}
 }
