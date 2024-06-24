@@ -87,6 +87,27 @@ class Board {
             this.onCardClick(card);
         }
     }
+
+    shufflerCards(){
+        for(let i = this.cards.length - 1; i>0; i--){
+            const j = Math.floor(Math.random()*(i+1));
+            [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
+        }
+    }
+
+    flipDownAllCards(){
+        this.cards.forEach(card => {
+            if (card.isFlipped){
+                card.toggleFlip();
+            }
+        });
+    }
+
+    reset(){
+        this.shuffleCards();
+        this.flipDownAllCards();
+        this.render();
+    }
 }
 
 class MemoryGame {
