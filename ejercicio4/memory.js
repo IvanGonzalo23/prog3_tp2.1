@@ -136,6 +136,24 @@ class MemoryGame {
             }
         }
     }
+
+    checkForMatch() {
+        const [card1, card2] = this.flippedCards;
+        if (card1.matches(card2)) {
+            this.matchedCards.push(card1, card2);
+            this.flippedCards = [];
+        } else {
+            card1.toggleFlip();
+            card2.toggleFlip();
+            this.flippedCards = [];
+        }
+    }
+
+    resetGame(){
+        this.flippedCards = [];
+        this.matchedCards = [];
+        this.board.reset();
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
