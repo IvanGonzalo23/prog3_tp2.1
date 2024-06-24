@@ -115,6 +115,8 @@ class MemoryGame {
         this.board = board;
         this.flippedCards = [];
         this.matchedCards = [];
+        this.moveCounter = 0;
+        this.moveCounterElement = document.getElementById("move-counter")
         if (flipDuration < 350 || isNaN(flipDuration) || flipDuration > 3000) {
             flipDuration = 350;
             alert(
@@ -123,7 +125,7 @@ class MemoryGame {
         }
         this.flipDuration = flipDuration;
         this.board.onCardClick = this.#handleCardClick.bind(this);
-        this.board.reset();
+        this.board.resetGame();
     }
 
     #handleCardClick(card) {
@@ -132,9 +134,15 @@ class MemoryGame {
             this.flippedCards.push(card);
 
             if (this.flippedCards.length === 2) {
+                this.moveCounter++;
+                this.updateMoveCounter();
                 setTimeout(() => this.checkForMatch(), this.flipDuration);
             }
         }
+    }
+
+    updateMoveCounter(){
+        this.moveCounterElement.textContent = this.moveCounter;
     }
 
     checkForMatch() {
@@ -152,6 +160,8 @@ class MemoryGame {
     resetGame(){
         this.flippedCards = [];
         this.matchedCards = [];
+        this.moveCounter = 0;
+        this.updateMoveCounter();
         this.board.reset();
     }
 }
