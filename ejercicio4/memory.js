@@ -158,6 +158,9 @@ class MemoryGame {
         if (card1.matches(card2)) {
             this.matchedCards.push(card1, card2);
             this.flippedCards = [];
+            if (this.matchedCards.length === this.board.cards.length){
+                this.endGame();
+            }
         } else {
             card1.toggleFlip();
             card2.toggleFlip();
@@ -177,6 +180,13 @@ class MemoryGame {
         }
         this.timerInterval = setInterval(()=> this.updateTimer(),1000)
         this.board.reset();
+    }
+
+    endGame(){
+        if (this.timerInterval){
+            clearInterval(this.timerInterval);
+        }
+        alert(`Juego completado en ${this.timer} segundos y ${this.moveCounter} movimientos!`);
     }
 }
 
