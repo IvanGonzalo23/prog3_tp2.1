@@ -31,6 +31,19 @@ class Card {
         const cardElement = this.element.querySelector(".card");
         cardElement.classList.remove("flipped");
     }
+
+    toggleFlip(){
+        if (this.isFlipped){
+            this.#unflip();
+        }else{
+            this.#flip();
+        }
+        this.isFlipped = !this.isFlipped
+    }
+
+    matches(otherCard){
+        return this.name === otherCard.name;
+    }
 }
 
 class Board {
