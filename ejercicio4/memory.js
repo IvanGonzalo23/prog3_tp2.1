@@ -5,7 +5,6 @@ class Card {
         this.isFlipped = false;
         this.element = this.#createCardElement();
     }
-
     #createCardElement() {
         const cardElement = document.createElement("div");
         cardElement.classList.add("cell");
@@ -21,7 +20,6 @@ class Card {
       `;
         return cardElement;
     }
-
     #flip() {
         const cardElement = this.element.querySelector(".card");
         cardElement.classList.add("flipped");
@@ -41,18 +39,16 @@ class Card {
         this.isFlipped = !this.isFlipped
     }
 
-    matches(otherCard){
+    matches(otherCard) {
         return this.name === otherCard.name;
     }
 }
-
 class Board {
     constructor(cards) {
         this.cards = cards;
         this.fixedGridElement = document.querySelector(".fixed-grid");
         this.gameBoardElement = document.getElementById("game-board");
     }
-
     #calculateColumns() {
         const numCards = this.cards.length;
         let columns = Math.floor(numCards / 2);
@@ -62,15 +58,12 @@ class Board {
         if (columns % 2 !== 0) {
             columns = columns === 11 ? 12 : columns - 1;
         }
-
         return columns;
     }
-
     #setGridColumns() {
         const columns = this.#calculateColumns();
         this.fixedGridElement.className = `fixed-grid has-${columns}-cols`;
     }
-
     render() {
         this.#setGridColumns();
         this.gameBoardElement.innerHTML = "";
@@ -81,42 +74,39 @@ class Board {
             this.gameBoardElement.appendChild(card.element);
         });
     }
-
     onCardClicked(card) {
         if (this.onCardClick) {
             this.onCardClick(card);
         }
     }
-
-    shufflerCards(){
+    shuffleCards(){
         for(let i = this.cards.length - 1; i>0; i--){
             const j = Math.floor(Math.random()*(i+1));
             [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
         }
     }
 
-    flipDownAllCards(){
+    flipDownAllCards() {
         this.cards.forEach(card => {
-            if (card.isFlipped){
+            if (card.isFlipped) {
                 card.toggleFlip();
             }
         });
     }
-
-    reset(){
+    reset() {
         this.shuffleCards();
         this.flipDownAllCards();
-        this.render();
+        this.render(); 
     }
 }
-
 class MemoryGame {
     constructor(board, flipDuration = 500) {
         this.board = board;
         this.flippedCards = [];
         this.matchedCards = [];
         this.moveCounter = 0;
-        this.moveCounterElement = document.getElementById("move-counter");
+        this.moveCounterElement = document.getElementById
+        ("move-counter");
         this.timerElement = document.getElementById("timer");
         this.timer = 0;
         this.timerInterval = null;
@@ -128,9 +118,8 @@ class MemoryGame {
         }
         this.flipDuration = flipDuration;
         this.board.onCardClick = this.#handleCardClick.bind(this);
-        this.board.resetGame();
+        this.resetGame();
     }
-
     #handleCardClick(card) {
         if (this.flippedCards.length < 2 && !card.isFlipped) {
             card.toggleFlip();
@@ -143,16 +132,6 @@ class MemoryGame {
             }
         }
     }
-
-    updateMoveCounter(){
-        this.moveCounterElement.textContent = this.moveCounter;
-    }
-
-    updateTimer(){
-        this.timer++;
-        this.timerElement.textContent = `${this.timer}s`;
-    }
-
     checkForMatch() {
         const [card1, card2] = this.flippedCards;
         if (card1.matches(card2)) {
@@ -167,8 +146,14 @@ class MemoryGame {
             this.flippedCards = [];
         }
     }
-
-    resetGame(){
+    updateTimer() {
+        this.timer++;
+        this.timerElement.textContent = `${this.timer}s`;
+    }
+    updateMoveCounter(){
+        this.moveCounterElement.textContent = this.moveCounter;
+    }
+    resetGame() {
         this.flippedCards = [];
         this.matchedCards = [];
         this.moveCounter = 0;
@@ -178,10 +163,9 @@ class MemoryGame {
         if (this.timerInterval){
             clearInterval(this.timerInterval);
         }
-        this.timerInterval = setInterval(()=> this.updateTimer(),1000)
+        this.timerInterval = setInterval(()=> this.updateTimer(),1000);
         this.board.reset();
     }
-
     endGame(){
         if (this.timerInterval){
             clearInterval(this.timerInterval);
@@ -189,7 +173,6 @@ class MemoryGame {
         alert(`Juego completado en ${this.timer} segundos y ${this.moveCounter} movimientos!`);
     }
 }
-
 document.addEventListener("DOMContentLoaded", () => {
     const cardsData = [
         { name: "Python", img: "./img/Python.svg" },
