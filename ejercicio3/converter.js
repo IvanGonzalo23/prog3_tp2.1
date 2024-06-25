@@ -42,7 +42,7 @@ class CurrencyConverter {
             return amount;
         }
         try{
-            const response = await.fetch(`${this.apiUrl}/latest?amount=${amount}&from=${fromCurrency.code}&to=${toCurrency.code}`);
+            const response = await fetch(`${this.apiUrl}/latest?amount=${amount}&from=${fromCurrency.code}&to=${toCurrency.code}`);
             const data = await response.json();
             return data.rates[toCurrency.code];
         } catch (error){
@@ -50,7 +50,7 @@ class CurrencyConverter {
             return null;
         }
     }
-    
+}  
 document.addEventListener("DOMContentLoaded", async () => {
     const form = document.getElementById("conversion-form");
     const resultDiv = document.getElementById("result");
